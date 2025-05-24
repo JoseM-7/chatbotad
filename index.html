@@ -198,169 +198,170 @@ YPE html>
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const chatArea = document.getElementById('chatArea');
-            const userInput = document.getElementById('userInput');
-            const sendButton = document.getElementById('sendButton');
-    
-            let estado = "esperando_opcion"; // Nueva variable de estado
-            let pasivo = null;
-            let activo = null;
-    
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatArea = document.getElementById('chatArea');
+        const userInput = document.getElementById('userInput');
+        const sendButton = document.getElementById('sendButton');
+
+        let estado = "esperando_opcion";
+        let pasivo = null;
+        let activo = null;
+
+        setTimeout(() => {
+            agregarMensajeBot("¡Hola! Soy tu asistente financiero. 😊<br>¿Sobre qué tema te gustaría hablar?<br><strong>1</strong> - Contabilidad (porcentaje de financiación)<br><strong>2</strong> - Administración (reclutamiento, control, escuelas)");
+        }, 500);
+
+        function handleInput() {
+            const entradaRaw = userInput.value.trim();
+            const entrada = entradaRaw.toLowerCase();
+            userInput.value = '';
+
+            if (entrada === "") return;
+
+            agregarMensajeUsuario(entradaRaw);
+
+            const typingElement = agregarMensajeBot("<span class='typing'></span>", true);
+
             setTimeout(() => {
-                agregarMensajeBot("¡Hola! Soy tu asistente financiero. 😊<br>¿Sobre qué tema te gustaría hablar?<br><strong>1</strong> - Contabilidad (porcentaje de financiación)<br><strong>2</strong> - Administración (reclutamiento, control, escuelas)");
-            }, 500);
-    
-            function handleInput() {
-                const entradaRaw = userInput.value.trim();
-                const entrada = entradaRaw.toLowerCase();
-                userInput.value = '';
-    
-                if (entrada === "") return;
-    
-                agregarMensajeUsuario(entradaRaw);
-    
-                const typingElement = agregarMensajeBot("<span class='typing'></span>", true);
-    
-                setTimeout(() => {
-                    chatArea.removeChild(typingElement);
-    
-                    try {
-                        // Etapa inicial: elegir área
-                        if (estado === "esperando_opcion") {
-                            if (entrada === "1") {
-                                estado = "esperando_pasivo";
-                                agregarMensajeBot("Elegiste *Contabilidad*. 🧾<br>Por favor, ingresa el valor del pasivo.");
-                                return;
-                            } else if (entrada === "2") {
-                                estado = "administracion_activa";
-                                agregarMensajeBot("Elegiste *Administración*. 🏢<br>Puedes preguntarme sobre:<br>- Proceso de reclutamiento<br>- Proceso de control<br>- Escuela de Sistemas vs Escuela Neoclásica");
-                                return;
-                            } else {
-                                throw new Error("Por favor escribe 1 para Contabilidad o 2 para Administración.");
-                            }
-                        }
-    
-                        // Administración
-                        if (estado === "administracion_activa") {
-                            if (entrada.includes("reclutamiento")) {
-                                const respuesta = `
-                                    <strong>Proceso de reclutamiento:</strong>
-                                    <ul>
-                                        <li>Es el conjunto de acciones que realiza una organización para atraer y seleccionar candidatos adecuados para un puesto de trabajo. 
-                                            Su objetivo es encontrar al mejor talento disponible para cubrir una necesidad específica de personal.</li>
-                                        <li><strong>Caracteristicas:</strong></li>
-                                        <li>-Publicar la oferta y recibir candidatos.</li>
-                                        <li>-Experiencia laboral relevante: Qué tanto se ajusta el historial del candidato al puesto.</li>
-                                        <li>-Entrevistar a los seleccionados.</li>
-                                        
-                                    </ul>`;
-                                agregarMensajeBot(respuesta, false, 'process-message');
-                                return;
-                            }
-    
-                            if (entrada.includes("control")) {
-                                const respuesta = `
-                                    <strong>Proceso de control:</strong>
-                                    <ul>
-                                        <li>Claro, el proceso de control en la administración es una etapa que consiste en comparar el desempeño real con los estándares establecidos,
-                                            identificar desviaciones y tomar acciones correctivas para asegurar el cumplimiento de los objetivos organizacionales</li>
-                                        <li><li><strong>Caracteristicas:</strong></li></li>
-                                        <li>-Es cíclico y repetitivo, ya que se realiza de manera continua para mantener la dirección adecuada.</li>
-                                        <li>-Requiere la fijación de estándares claros y precisos para poder evaluar el desempeño.</li>
-                                        <li>-Permite detectar desviaciones y aplicar acciones correctivas para mejorar la eficiencia y eficacia de los procesos.</li>
-                                    
-                                    </ul>`;
-                                agregarMensajeBot(respuesta, false, 'process-message');
-                                return;
-                            }
-    
-                            if (entrada.includes("administracion")) {
-                                const respuesta = `
-                                    <strong>Escuela de Sistemas vs Escuela Neoclásica:</strong>
-                                    <ul>
-                                        <li><strong>Escuela de Sistemas de la Administración:</strong> es un enfoque que considera a las organizaciones como sistemas abiertos, compuestos por subsistemas 
-                                            que interactúan entre sí y con su entorno. Este enfoque busca integrar y sintetizar diferentes teorías y variables para comprender y gestionar mejor 
-                                            las organizaciones en un contexto dinámico.<br>
-                                        <li><strong>Caracteristicas:</strong></li></li>
-                                        <li>-Es una perspectiva integral que visualiza a la organización como un sistema compuesto por múltiples subsistemas interrelacionados.</li>
-                                        <li>-Considera a la organización como un sistema abierto que intercambia energía e información con su entorno, lo que influye en su funcionamiento y objetivos.</li>
-                                        <li><strong>Escuela Neoclásica:</strong> Retoma principios de la escuela clásica, pero con un enfoque más flexible y adaptado a las necesidades actuales.</li>
-                                        <li><strong>Caracteristicas:</strong></li></li>
-                                        <li>Énfasis en la eficiencia y productividad:Busca mejorar la organización a través de principios de administración racionales.</li>
-                                        <li>Adaptabilidad:Reconoce la importancia del entorno y la necesidad de ajustar las estrategias administrativas a las circunstancias cambiantes.</li>
-                                    </ul>`;
-                                agregarMensajeBot(respuesta, false, 'process-message');
-                                return;
-                            }
-    
-                            throw new Error("No entendí tu mensaje. Puedes escribir 'Proceso de reclutamiento', 'Proceso de control' o 'Escuela de administración vs escuela neoclasica'.");
-                        }
-    
-                        // Contabilidad
-                        if (estado === "esperando_pasivo") {
-                            const valor = parseFloat(entrada);
-                            if (isNaN(valor)) throw new Error("Por favor ingresa un número válido para el pasivo.");
-                            if (valor < 0) throw new Error("El pasivo no puede ser negativo.");
-                            pasivo = valor;
-                            estado = "esperando_activo";
-                            agregarMensajeBot("Perfecto. Ahora dime el valor del activo.");
-                            return;
-                        }
-    
-                        if (estado === "esperando_activo") {
-                            const valor = parseFloat(entrada);
-                            if (isNaN(valor)) throw new Error("Por favor ingresa un número válido para el activo.");
-                            if (valor <= 0) throw new Error("El activo debe ser mayor que cero.");
-                            activo = valor;
-                            const resultado = (pasivo / activo) * 100;
-                            agregarMensajeBot(`✅ El porcentaje de financiación es: <strong>${resultado.toFixed(2)}%</strong>`, false, 'success-message');
-    
-                            estado = "esperando_opcion";
-                            pasivo = null;
-                            activo = null;
-                            agregarMensajeBot("¿Quieres hacer otra consulta?<br>Escribe <strong>1 para Contabilidad</strong> o <strong>2 para Administración.</strong>");
-                            return;
-                        }
-    
-                    } catch (error) {
-                        agregarMensajeBot(`⚠️ Error: ${error.message}`, false, 'error-message');
+                chatArea.removeChild(typingElement);
+
+                try {
+                    if (entrada === "salir" && estado === "administracion_activa") {
+                        estado = "esperando_opcion";
+                        agregarMensajeBot("Has salido de Administración. ¿Sobre qué tema te gustaría hablar?<br><strong>1</strong> - Contabilidad<br><strong>2</strong> - Administración");
+                        return;
                     }
-                }, 800);
-            }
-    
-            sendButton.addEventListener('click', handleInput);
-            userInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    handleInput();
+
+                    if (estado === "esperando_opcion") {
+                        if (entrada === "1") {
+                            estado = "esperando_pasivo";
+                            agregarMensajeBot("Elegiste *Contabilidad*. 🧾<br>Por favor, ingresa el valor del pasivo.");
+                            return;
+                        } else if (entrada === "2") {
+                            estado = "administracion_activa";
+                            agregarMensajeBot("Elegiste *Administración*. 🏢<br>Puedes preguntarme sobre:<br>- Proceso de reclutamiento<br>- Proceso de control<br>- Escuela de Sistemas vs Escuela Neoclásica<br><br>Escribe 'salir' para volver al menú principal.");
+                            return;
+                        } else {
+                            throw new Error("Por favor escribe 1 para Contabilidad o 2 para Administración.");
+                        }
+                    }
+
+                    if (estado === "administracion_activa") {
+                        if (entrada.includes("reclutamiento")) {
+                            const respuesta = `
+                                <strong>Proceso de reclutamiento:</strong>
+                                <ul>
+                                    <li>Es el conjunto de acciones que realiza una organización para atraer y seleccionar candidatos adecuados para un puesto de trabajo. 
+                                        Su objetivo es encontrar al mejor talento disponible para cubrir una necesidad específica de personal.</li>
+                                    <li><strong>Caracteristicas:</strong></li>
+                                    <li>-Publicar la oferta y recibir candidatos.</li>
+                                    <li>-Experiencia laboral relevante: Qué tanto se ajusta el historial del candidato al puesto.</li>
+                                    <li>-Entrevistar a los seleccionados.</li>
+                                </ul>`;
+                            agregarMensajeBot(respuesta, false, 'process-message');
+                            return;
+                        }
+
+                        if (entrada.includes("control")) {
+                            const respuesta = `
+                                <strong>Proceso de control:</strong>
+                                <ul>
+                                    <li>Claro, el proceso de control en la administración es una etapa que consiste en comparar el desempeño real con los estándares establecidos,
+                                        identificar desviaciones y tomar acciones correctivas para asegurar el cumplimiento de los objetivos organizacionales</li>
+                                    <li><li><strong>Caracteristicas:</strong></li></li>
+                                    <li>-Es cíclico y repetitivo, ya que se realiza de manera continua para mantener la dirección adecuada.</li>
+                                    <li>-Requiere la fijación de estándares claros y precisos para poder evaluar el desempeño.</li>
+                                    <li>-Permite detectar desviaciones y aplicar acciones correctivas para mejorar la eficiencia y eficacia de los procesos.</li>
+                                </ul>`;
+                            agregarMensajeBot(respuesta, false, 'process-message');
+                            return;
+                        }
+
+                        if (entrada.includes("administracion")) {
+                            const respuesta = `
+                                <strong>Escuela de Sistemas vs Escuela Neoclásica:</strong>
+                                <ul>
+                                    <li><strong>Escuela de Sistemas de la Administración:</strong> es un enfoque que considera a las organizaciones como sistemas abiertos, compuestos por subsistemas 
+                                        que interactúan entre sí y con su entorno. Este enfoque busca integrar y sintetizar diferentes teorías y variables para comprender y gestionar mejor 
+                                        las organizaciones en un contexto dinámico.<br>
+                                    <li><strong>Caracteristicas:</strong></li></li>
+                                    <li>-Es una perspectiva integral que visualiza a la organización como un sistema compuesto por múltiples subsistemas interrelacionados.</li>
+                                    <li>-Considera a la organización como un sistema abierto que intercambia energía e información con su entorno, lo que influye en su funcionamiento y objetivos.</li>
+                                    <li><strong>Escuela Neoclásica:</strong> Retoma principios de la escuela clásica, pero con un enfoque más flexible y adaptado a las necesidades actuales.</li>
+                                    <li><strong>Caracteristicas:</strong></li></li>
+                                    <li>Énfasis en la eficiencia y productividad:Busca mejorar la organización a través de principios de administración racionales.</li>
+                                    <li>Adaptabilidad:Reconoce la importancia del entorno y la necesidad de ajustar las estrategias administrativas a las circunstancias cambiantes.</li>
+                                </ul>`;
+                            agregarMensajeBot(respuesta, false, 'process-message');
+                            return;
+                        }
+
+                        throw new Error("No entendí tu mensaje. Puedes escribir 'Proceso de reclutamiento', 'Proceso de control' o 'Escuela de administración vs escuela neoclasica'.");
+                    }
+
+                    if (estado === "esperando_pasivo") {
+                        const valor = parseFloat(entrada);
+                        if (isNaN(valor)) throw new Error("Por favor ingresa un número válido para el pasivo.");
+                        if (valor < 0) throw new Error("El pasivo no puede ser negativo.");
+                        pasivo = valor;
+                        estado = "esperando_activo";
+                        agregarMensajeBot("Perfecto. Ahora dime el valor del activo.");
+                        return;
+                    }
+
+                    if (estado === "esperando_activo") {
+                        const valor = parseFloat(entrada);
+                        if (isNaN(valor)) throw new Error("Por favor ingresa un número válido para el activo.");
+                        if (valor <= 0) throw new Error("El activo debe ser mayor que cero.");
+                        activo = valor;
+                        const resultado = (pasivo / activo) * 100;
+                        agregarMensajeBot(`✅ El porcentaje de financiación es: <strong>${resultado.toFixed(2)}%</strong>`, false, 'success-message');
+
+                        estado = "esperando_opcion";
+                        pasivo = null;
+                        activo = null;
+                        agregarMensajeBot("¿Quieres hacer otra consulta?<br>Escribe <strong>1 para Contabilidad</strong> o <strong>2 para Administración.</strong>");
+                        return;
+                    }
+
+                } catch (error) {
+                    agregarMensajeBot(`⚠️ Error: ${error.message}`, false, 'error-message');
                 }
-            });
-    
-            function agregarMensajeBot(mensaje, isTyping = false, extraClass = '') {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `message bot-message ${extraClass}`;
-                messageDiv.innerHTML = `<span class="message-icon">🤖</span> ${mensaje}`;
-                chatArea.appendChild(messageDiv);
-    
-                if (!isTyping) {
-                    messageDiv.classList.add('pulse');
-                }
-    
-                chatArea.scrollTop = chatArea.scrollHeight;
-                return messageDiv;
-            }
-    
-            function agregarMensajeUsuario(mensaje) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'message user-message';
-                messageDiv.innerHTML = `<span class="message-icon">🧑</span> ${mensaje}`;
-                chatArea.appendChild(messageDiv);
-                messageDiv.classList.add('pulse');
-                chatArea.scrollTop = chatArea.scrollHeight;
+            }, 800);
+        }
+
+        sendButton.addEventListener('click', handleInput);
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleInput();
             }
         });
-    </script>
-    
+
+        function agregarMensajeBot(mensaje, isTyping = false, extraClass = '') {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message bot-message ${extraClass}`;
+            messageDiv.innerHTML = `<span class="message-icon">🤖</span> ${mensaje}`;
+            chatArea.appendChild(messageDiv);
+
+            if (!isTyping) {
+                messageDiv.classList.add('pulse');
+            }
+
+            chatArea.scrollTop = chatArea.scrollHeight;
+            return messageDiv;
+        }
+
+        function agregarMensajeUsuario(mensaje) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message user-message';
+            messageDiv.innerHTML = `<span class="message-icon">🧑</span> ${mensaje}`;
+            chatArea.appendChild(messageDiv);
+            messageDiv.classList.add('pulse');
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+    });
+</script>
+
 
 </body>
 </html>
