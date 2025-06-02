@@ -208,7 +208,7 @@
             let activo = null;
     
             setTimeout(() => {
-                agregarMensajeBot("¡Hola! Soy tu asistente financiero. 😊<br>¿Sobre qué tema te gustaría hablar?<br><strong>1</strong> - Contabilidad (porcentaje de financiación)<br><strong>2</strong> - Administración (reclutamiento, control, escuelas)");
+                agregarMensajeBot("¡Hola! Soy tu asistente financiero. 😊<br>¿Sobre qué tema te gustaría hablar?<br><strong>1</strong> - Contabilidad (porcentaje de financiación)<br><strong>2</strong> - Administración (reclutamiento, control, escuelas, utilidades)");
             }, 500);
     
             function handleInput() {
@@ -239,7 +239,7 @@
                                 return;
                             } else if (entrada === "2") {
                                 estado = "administracion_activa";
-                                agregarMensajeBot("Elegiste *Administración*. 🏢<br>Puedes preguntarme sobre:<br>- Proceso de reclutamiento<br>- Proceso de control<br>- Escuela de Sistemas vs Escuela Neoclásica<br><br>Escribe 'salir' para volver al menú principal.");
+                                agregarMensajeBot("Elegiste *Administración*. 🏢<br>Puedes preguntarme sobre:<br>- Proceso de reclutamiento<br>- Proceso de control<br>- Escuela de Sistemas vs Escuela Neoclásica<br>- Para qué sirve el control en una empresa<br><br> Escribe 'salir' para volver al menú principal.");
                                 return;
                             } else {
                                 throw new Error("Por favor escribe 1 para Contabilidad o 2 para Administración.");
@@ -291,6 +291,19 @@
                                         <li><strong>Caracteristicas:</strong></li></li>
                                         <li>Énfasis en la eficiencia y productividad:Busca mejorar la organización a través de principios de administración racionales.</li>
                                         <li>Adaptabilidad:Reconoce la importancia del entorno y la necesidad de ajustar las estrategias administrativas a las circunstancias cambiantes.</li>
+                                    </ul>`;
+                                agregarMensajeBot(respuesta, false, 'process-message');
+                                return;
+                            }
+                            if (entrada.includes("sirve")) {
+                                const respuesta = `
+                                    <strong>¿Para qué sirve el control en una empresa?</strong>
+                                    <ul>
+                                        <li>Para garantizar que se alcancen los objetivos, mantener la eficiencia y detectar errores o problemas a tiempo.</li>
+                                        <li><li><strong>Existen varios tipo de control:</strong></li></li>
+                                        <li>-Preventivo (antes de que ocurra el problema)</li>
+                                        <li>-Concurrente (durante la ejecución)</li>
+                                        <li>-Correctivo (después de detectar un error)</li>
                                     </ul>`;
                                 agregarMensajeBot(respuesta, false, 'process-message');
                                 return;
