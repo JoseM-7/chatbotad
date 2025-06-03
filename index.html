@@ -225,7 +225,8 @@
     }
 
     try {
-        const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=3&printType=books`);
+        const apiKey = 'AIzaSyCcDCmIg2P-fvcWvcioWInEF2mJSwQy_sc';
+        const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=3&printType=books&key=${apiKey}`);
 
 
         if (!response.ok) {
